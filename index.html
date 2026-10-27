@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gerenciador de Tarefas — DevOps</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./src/app.js"></script>
+</head>
+<body>
+  <main>
+    <h1>Minhas tarefas</h1>
+    <p>Organize e acompanhe as suas atividades.</p>
+    <form id="task-form">
+      <label for="description">Nova tarefa</label>
+      <div class="form-row">
+        <input id="description" placeholder="Ex.: estudar DevOps" aria-describedby="feedback">
+        <button type="submit">Adicionar</button>
+      </div>
+      <p id="feedback" role="alert"></p>
+    </form>
+    <h2>Lista de tarefas</h2>
+    <ul id="task-list"></ul>
+  </main>
+</body>
+</html>
