@@ -1,0 +1,12 @@
+* { box-sizing: border-box; }
+body { margin: 0; font: 16px/1.5 system-ui, sans-serif; background: #f4f6fb; color: #25304a; }
+main { width: min(740px, 92%); margin: 48px auto; padding: 28px; border-radius: 16px; background: white; box-shadow: 0 8px 30px #0001; }
+h1 { margin-top: 0; }
+.form-row { display: flex; gap: 10px; margin-top: 8px; }
+input { flex: 1; min-width: 0; padding: 11px; border: 1px solid #9ca8bb; border-radius: 6px; }
+button { padding: 10px 14px; border: 0; border-radius: 6px; color: white; background: #3657a7; cursor: pointer; }
+li { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid #e8edf4; }
+li span { flex: 1; overflow-wrap: anywhere; }
+.done { text-decoration: line-through; color: #687389; }
+#feedback { color: #a22b32; min-height: 1.5em; }
+@media (max-width: 480px) { .form-row { flex-direction: column; } }
