@@ -26,13 +26,13 @@ O build gera os arquivos estáticos na pasta `dist/`.
 
 ## Infraestrutura como código (IaC)
 
-A pasta [infra/](infra/) contém arquivos Terraform para descrever um bucket privado no Amazon S3 com bloqueio de acesso público, versionamento e criptografia SSE-S3.
+A pasta [infra/](infra/) contém arquivos Terraform para descrever um bucket privado no Amazon S3 com bloqueio de acesso público, versionamento e criptografia SSE-S3. Consulte as [instruções completas do Terraform](infra/README.md), incluindo os arquivos `outputs.tf`, comandos de validação, plano, provisionamento opcional e cuidados de segurança.
 
 Para validar a configuração, com Terraform instalado:
 
 ```sh
 cd infra
-terraform fmt -check
+terraform fmt -check -recursive
 terraform init -backend=false
 terraform validate
 ```
