@@ -32,3 +32,23 @@ jobs:
         with:
           name: site-estatico
           path: dist/
+
+  validar-infraestrutura:
+    name: Validar Terraform
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obter código
+        uses: actions/checkout@v4
+      - name: Preparar Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.10.5'
+      - name: Verificar formatação Terraform
+        run: terraform fmt -check -recursive
+        working-directory: infra
+      - name: Inicializar Terraform sem backend remoto
+        run: terraform init -backend=false -input=false
+        working-directory: infra
+      - name: Validar configuração Terraform
+        run: terraform validate -no-color
+        working-directory: infra
