@@ -1,0 +1,11 @@
+**
+!package.json
+!package-lock.json
+!index.html
+!style.css
+!src/
+!src/**
+!scripts/
+!scripts/build.js
+!deploy/
+!deploy/nginx.conf

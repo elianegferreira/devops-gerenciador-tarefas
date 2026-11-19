@@ -1,0 +1,28 @@
+name: Validar container (Fase 2)
+on:
+  push:
+    branches: [fase-2]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validar-container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Obter código
+        uses: actions/checkout@v4
+      - name: Construir, iniciar e verificar o container
+        run: sh scripts/deploy-container.sh
+      - name: Verificar arquivos estáticos e cabeçalho de segurança
+        run: |
+          curl -fsS http://127.0.0.1:8080/style.css >/dev/null
+          curl -fsS http://127.0.0.1:8080/src/tasks.js >/dev/null
+          curl -fsSI http://127.0.0.1:8080/ | grep -iq '^X-Content-Type-Options: nosniff'
+          test "$(docker exec devops-tarefas id -u)" -ne 0
+      - name: Mostrar logs
+        if: always()
+        run: docker logs devops-tarefas || true
+      - name: Parar container de teste
+        if: always()
+        run: docker stop devops-tarefas || true
