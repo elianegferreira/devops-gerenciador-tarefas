@@ -44,20 +44,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Construir, iniciar e verificar o container
-        run: sh scripts/deploy-container.sh
-      - name: Verificar arquivos estáticos, cabeçalho e usuário do container
-        run: |
-          curl -fsS http://127.0.0.1:8080/style.css >/dev/null
-          curl -fsS http://127.0.0.1:8080/src/tasks.js >/dev/null
-          curl -fsSI http://127.0.0.1:8080/ | grep -iq '^X-Content-Type-Options: nosniff'
-          test "$(docker exec devops-tarefas id -u)" -ne 0
-      - name: Mostrar logs
-        if: always()
-        run: docker logs devops-tarefas || true
-      - name: Parar container de teste
-        if: always()
-        run: docker stop devops-tarefas || true
+      - name: Validar orquestração com Docker Compose
+        run: sh scripts/test-compose.sh
 
   publicar-no-render:
     needs: [validar-container, validar-terraform]

@@ -1,4 +1,4 @@
-# Fase 2 — Containerização
+# Fase 2 — Containerização, orquestração e entrega contínua
 
 Esta branch parte da entrega da Fase 1. O Dockerfile executa o build com Node.js e copia apenas a pasta `dist/` para um servidor NGINX sem privilégios de administrador. As tarefas continuam guardadas no navegador.
 
@@ -17,6 +17,28 @@ docker stop devops-tarefas
 ```
 
 É possível escolher outras configurações por meio de `HOST_PORT`, `IMAGE_NAME` e `CONTAINER_NAME`. Por exemplo, `HOST_PORT=8081 sh scripts/deploy-container.sh`.
+
+## Orquestração com Docker Compose
+
+O arquivo [compose.yaml](../compose.yaml) coordena dois containers numa rede local. O serviço `web` constrói e executa a imagem da aplicação. O serviço `verificacao` é temporário e só inicia após o `web` ficar saudável, com `depends_on` e `service_healthy`. O healthcheck verifica que o processo roda sem privilégios de administrador e que `/healthz` devolve `ok`.
+
+Com Docker e Docker Compose disponíveis, execute na raiz:
+
+```sh
+sh scripts/test-compose.sh
+```
+
+O script valida a configuração, sobe os dois serviços, devolve o código de saída do verificador e remove os containers e a rede temporária ao terminar. O verificador testa a página inicial, CSS, JavaScript, cabeçalho de segurança e resposta 404. Se algum teste falhar, o GitHub Actions não publica.
+
+Para demonstrar só a aplicação no navegador:
+
+```sh
+docker compose up --build --detach
+# Abra http://127.0.0.1:8080/
+docker compose down
+```
+
+Feche antes outro serviço local que esteja a usar a porta 8080 ou use `HOST_PORT=8081`. Os testes HTTP não substituem testes das ações do utilizador no navegador. O Compose é utilizado localmente e no GitHub Actions. O Render continua a executar apenas o serviço web a partir do Dockerfile.
 
 ## Entrega contínua no Render
 
