@@ -24,6 +24,10 @@ O workflow **CI/CD (Fase 2)** executa os testes da aplicação, gera o build, va
 
 1. Crie um **Web Service** Docker no Render ligado a este repositório, na branch `fase-2`. Deixe o Dockerfile na raiz e configure o Health Check Path como `/healthz`. Defina `PORT=8080`. Escolha **Free** se disponível e desligue **Auto-Deploy** para que os próximos deploys sejam iniciados pelo GitHub Actions. A criação inicial do serviço pode disparar um primeiro deploy e não conta como evidência da entrega automatizada.
 2. No GitHub, em **Settings → Secrets and variables → Actions**, guarde a chave de API do Render como secret `RENDER_API_KEY`. Configure as variáveis `RENDER_SERVICE_ID` (ID `srv-…`), `RENDER_SERVICE_URL` (URL HTTPS pública `*.onrender.com`) e, por último, `RENDER_DEPLOY_ENABLED=true`.
-3. Em **Actions → CI/CD (Fase 2)**, execute manualmente o workflow na branch `fase-2`. Confirme o job de publicação e o link no resumo. Os próximos pushes para a branch iniciam o mesmo fluxo.
+3. Envie um commit para a branch `fase-2` para acionar o workflow. Em **Actions → CI/CD (Fase 2)**, confirme o job de publicação e o link no resumo.
 
 Enquanto `RENDER_DEPLOY_ENABLED` não for `true`, a publicação é pulada e nenhuma chamada é enviada ao Render. Consulte os logs do NGINX no job de validação e os logs do serviço no Render depois da publicação. Não inclua a chave de API no repositório nem nas capturas.
+
+### Serviço da demonstração
+
+O serviço Docker usa a branch `fase-2`, porta 8080 e verificação HTTP em `/healthz`. A publicação automática nativa do Render fica desativada. A aplicação está disponível em https://devops-gerenciador-tarefas.onrender.com/.
